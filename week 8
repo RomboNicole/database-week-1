@@ -1,0 +1,53 @@
+-- Student Records Database
+-- Author: [Your Name]
+-- Description: SQL script to create a Student Records System with proper constraints
+
+-- Create the database
+CREATE DATABASE IF NOT EXISTS student_records;
+USE student_records;
+
+-- Table: Departments
+CREATE TABLE departments (
+    department_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    building VARCHAR(100)
+);
+
+-- Table: Instructors
+CREATE TABLE instructors (
+    instructor_id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    department_id INT,
+    FOREIGN KEY (department_id) REFERENCES departments(department_id)
+);
+
+-- Table: Courses
+CREATE TABLE courses (
+    course_id INT AUTO_INCREMENT PRIMARY KEY,
+    course_name VARCHAR(100) NOT NULL,
+    credit_hours INT NOT NULL CHECK (credit_hours > 0),
+    instructor_id INT,
+    FOREIGN KEY (instructor_id) REFERENCES instructors(instructor_id)
+);
+
+-- Table: Students
+CREATE TABLE students (
+    student_id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    date_of_birth DATE NOT NULL,
+    department_id INT,
+    FOREIGN KEY (department_id) REFERENCES departments(department_id)
+);
+
+-- Table: Enrollments (Many-to-Many: Students <-> Courses)
+CREATE TABLE enrollments (
+    student_id INT,
+    course_id INT,
+    enrollment_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    grade CHAR(2),
+    PRIMARY KEY (student_id, course_id),
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    FOREIGN KEY (course_id) REFERENCES courses(course_id)
+);

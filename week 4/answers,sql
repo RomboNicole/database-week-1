@@ -48,3 +48,4 @@ FROM
     payments
 GROUP BY 
     checkNumber;
+git IDENTITY_VAL_LOCAL
