@@ -1,0 +1,50 @@
+-- Question 1
+-- Show the total payment amount for each payment date
+-- Sort by payment date in descending order and limit to top 5
+
+SELECT 
+    paymentDate, 
+    SUM(amount) AS total_amount
+FROM 
+    payments
+GROUP BY 
+    paymentDate
+ORDER BY 
+    paymentDate DESC
+LIMIT 5;
+
+-- Question 2
+-- Find the average credit limit of each customer grouped by name and country
+
+SELECT 
+    customerName, 
+    country, 
+    AVG(creditLimit) AS average_credit_limit
+FROM 
+    customers
+GROUP BY 
+    customerName, country;
+
+-- Question 3
+-- Calculate total price = quantityOrdered * priceEach for each product
+-- Group by productCode and quantityOrdered
+
+SELECT 
+    productCode, 
+    quantityOrdered, 
+    SUM(quantityOrdered * priceEach) AS total_price
+FROM 
+    orderdetails
+GROUP BY 
+    productCode, quantityOrdered;
+
+-- Question 4
+-- Find the highest payment amount for each check number
+
+SELECT 
+    checkNumber, 
+    MAX(amount) AS highest_payment
+FROM 
+    payments
+GROUP BY 
+    checkNumber;
